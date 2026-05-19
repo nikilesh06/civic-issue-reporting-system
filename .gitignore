@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Environment variables - NEVER commit these
+backend/.env
+.env
+.env.local
+.env.production
+
+# Build output
+frontend/dist/
+frontend/.vite/
+
+# Uploaded files
+backend/uploads/
+
+# OS/Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+*.log
+
+# Temp/debug scripts
+backend/testAll.js
+backend/testQuery.js
+backend/testReq.js
+backend/getToken.js
