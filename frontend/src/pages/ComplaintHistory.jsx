@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import StatusBadge from '../components/StatusBadge';
 import api from '../api/axios';
@@ -36,6 +37,16 @@ const ComplaintHistory = () => {
       <Navbar />
       <div style={{ maxWidth:1000, margin:'0 auto', padding:'2rem 1.5rem' }}>
         <div className="fade-in" style={{ marginBottom:'1.5rem' }}>
+          <Link to="/" style={{ 
+            display:'inline-flex', alignItems:'center', gap:6, 
+            background:'#ffffff', border:'1px solid #cbd5e1', color:'#475569', 
+            textDecoration:'none', fontSize:'0.85rem', fontWeight:600,
+            padding:'0.5rem 1rem', borderRadius:8, marginBottom:'1rem',
+            boxShadow:'0 1px 2px rgba(0,0,0,0.05)', transition:'all 0.2s' 
+          }} onMouseEnter={e=>{e.currentTarget.style.background='#f8fafc'; e.currentTarget.style.color='#1e3a8a'; e.currentTarget.style.borderColor='#94a3b8'}} 
+             onMouseLeave={e=>{e.currentTarget.style.background='#ffffff'; e.currentTarget.style.color='#475569'; e.currentTarget.style.borderColor='#cbd5e1'}}>
+            ← Back to Dashboard
+          </Link>
           <h1 style={{ fontSize:'1.5rem', fontWeight:800, color:'#0f172a' }}>My Complaints</h1>
           <p style={{ color:'#64748b', fontSize:'0.875rem', marginTop:4 }}>Track all your submitted civic issues</p>
         </div>

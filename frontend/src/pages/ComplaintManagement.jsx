@@ -102,16 +102,27 @@ const ComplaintManagement = () => {
                       <td style={{ color:'#64748b', fontSize:'0.8rem' }}>{new Date(c.createdAt).toLocaleDateString('en-IN')}</td>
                       <td>
                         <div style={{ display:'flex', gap:6 }}>
-                          {c.status !== 'In Progress' && (
+                          {user?.role === 'councillor' && c.status !== 'In Progress' && (
                             <button onClick={() => updateStatus(c._id, 'In Progress')} disabled={updatingId === c._id}
                               style={{ background:'rgba(6,182,212,0.15)', border:'1px solid rgba(6,182,212,0.3)', borderRadius:6, padding:'4px 8px', color:'#0284c7', cursor:'pointer', fontSize:'0.75rem', fontWeight:600 }}>
                               Progress
                             </button>
                           )}
-                          {c.status !== 'Resolved' && (
+                          {user?.role === 'councillor' && c.status !== 'Resolved' && (
                             <button onClick={() => updateStatus(c._id, 'Resolved')} disabled={updatingId === c._id}
                               style={{ background:'rgba(16,185,129,0.15)', border:'1px solid rgba(16,185,129,0.3)', borderRadius:6, padding:'4px 8px', color:'#10b981', cursor:'pointer', fontSize:'0.75rem', fontWeight:600 }}>
                               Resolve
+                            </button>
+                          )}
+                          {user?.role === 'admin' && (
+                            <button
+                              onClick={() => { setModal(c); setAdminNote(c.adminNote || ''); }}
+                              style={{
+                                background:'rgba(30,58,138,0.1)', border:'1px solid rgba(30,58,138,0.3)',
+                                borderRadius:6, padding:'4px 10px', color:'#1e3a8a',
+                                cursor:'pointer', fontSize:'0.75rem', fontWeight:600
+                              }}>
+                              View Details
                             </button>
                           )}
                         </div>
@@ -135,10 +146,10 @@ const ComplaintManagement = () => {
               </div>
               <button onClick={() => setModal(null)} style={{ background:'none', border:'none', color:'#64748b', cursor:'pointer' }}><X size={20} /></button>
             </div>
-            <div style={{ display:'flex', gap:8, marginBottom:'1rem', flexWrap:'wrap' }}>
+            <div style={{ display:'flex', gap:8, marginBottom:'1rem', flexWrap:'wrap', alignItems:'center' }}>
               <StatusBadge status={modal.status} />
               <span style={{ fontSize:'0.78rem', color:'#64748b', display:'flex', alignItems:'center', gap:4 }}><User size={12} /> {modal.userId?.name}</span>
-              <span style={{ fontSize:'0.78rem', color:'#64748b' }}>Ward {modal.ward?.wardNumber}</span>
+              <span style={{ fontSize:'0.78rem', color:'#64748b', display:'flex', alignItems:'center', gap:4 }}><MapPin size={12} /> Ward {modal.ward?.wardNumber} — {modal.ward?.wardName}</span>
             </div>
             <p style={{ color:'#94a3b8', fontSize:'0.875rem', lineHeight:1.6, marginBottom:'1rem' }}>{modal.description}</p>
             {modal.location?.address && <p style={{ fontSize:'0.8rem', color:'#64748b', marginBottom:'0.75rem', display:'flex', alignItems:'center', gap:6 }}><MapPin size={13} /> {modal.location.address}</p>}
@@ -147,10 +158,17 @@ const ComplaintManagement = () => {
               <label className="label">Admin Note</label>
               <textarea className="input" rows={2} value={adminNote} onChange={e=>setAdminNote(e.target.value)} placeholder="Add note for citizen..." style={{ marginBottom:'0.75rem', resize:'vertical' }} />
               <div style={{ display:'flex', gap:8 }}>
-                <button onClick={() => updateStatus(modal._id, 'In Progress')} disabled={modal.status === 'In Progress' || updatingId === modal._id}
-                  className="btn-secondary" style={{ flex:1, justifyContent:'center', fontSize:'0.85rem' }}>Mark In Progress</button>
-                <button onClick={() => updateStatus(modal._id, 'Resolved')} disabled={modal.status === 'Resolved' || updatingId === modal._id}
-                  className="btn-primary" style={{ flex:1, justifyContent:'center', fontSize:'0.85rem' }}>Mark Resolved</button>
+                {user?.role === 'councillor' ? (
+                  <>
+                    <button onClick={() => updateStatus(modal._id, 'In Progress')} disabled={modal.status === 'In Progress' || updatingId === modal._id}
+                      className="btn-secondary" style={{ flex:1, justifyContent:'center', fontSize:'0.85rem' }}>Mark In Progress</button>
+                    <button onClick={() => updateStatus(modal._id, 'Resolved')} disabled={modal.status === 'Resolved' || updatingId === modal._id}
+                      className="btn-primary" style={{ flex:1, justifyContent:'center', fontSize:'0.85rem' }}>Mark Resolved</button>
+                  </>
+                ) : (
+                  <button onClick={() => updateStatus(modal._id, modal.status)} disabled={updatingId === modal._id}
+                    className="btn-primary" style={{ flex:1, justifyContent:'center', fontSize:'0.85rem' }}>Save Admin Note</button>
+                )}
               </div>
             </div>
           </div>

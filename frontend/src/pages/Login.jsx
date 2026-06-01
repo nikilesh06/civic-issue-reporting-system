@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Mail, ArrowRight, Loader } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import api from '../api/axios';
 
 const Login = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [ward, setWard] = useState('');
@@ -47,7 +49,7 @@ const Login = () => {
           <p style={{ color:'#94a3b8', fontSize:'0.9rem' }}>Crowdsourced Civic Issue Reporting</p>
         </div>
 
-        <h2 style={{ fontSize:'1.1rem', fontWeight:600, color:'#0f172a', marginBottom:'0.25rem' }}>Welcome back</h2>
+        <h2 style={{ fontSize:'1.1rem', fontWeight:600, color:'#0f172a', marginBottom:'0.25rem' }}>{t('welcome')}</h2>
         <p style={{ color:'#64748b', fontSize:'0.85rem', marginBottom:'1.5rem' }}>Sign in with your email — we'll send an OTP</p>
 
         {error && (
@@ -59,34 +61,28 @@ const Login = () => {
         <form onSubmit={handleSubmit} style={{ display:'flex', flexDirection:'column', gap:'1rem' }}>
           <div>
             <label className="label">Full Name</label>
-            <input className="input" type="text" placeholder="Enter your name" value={name} onChange={e => setName(e.target.value)} />
+            <input className="input" type="text" placeholder={t('enter_name')} value={name} onChange={e => setName(e.target.value)} />
           </div>
           <div>
-            <label className="label">Email Address</label>
+            <label className="label">{t('email')}</label>
             <div style={{ position:'relative' }}>
               <Mail size={16} style={{ position:'absolute', left:12, top:'50%', transform:'translateY(-50%)', color:'#64748b' }} />
-              <input className="input" type="email" placeholder="you@example.com" value={email}
+              <input className="input" type="email" placeholder={t('enter_email')} value={email}
                 onChange={e => setEmail(e.target.value)} style={{ paddingLeft:36 }} required />
             </div>
           </div>
           <div>
-            <label className="label">Your Ward</label>
+            <label className="label">{t('ward')}</label>
             <select className="select" value={ward} onChange={e => setWard(e.target.value)} required>
-              <option value="">Select your local ward</option>
+              <option value="">{t('select_ward')}</option>
               {wards.map(w => <option key={w._id} value={w._id}>Ward {w.wardNumber} — {w.wardName}</option>)}
             </select>
           </div>
           <button className="btn-primary" type="submit" disabled={loading} style={{ width:'100%', justifyContent:'center', padding:'0.75rem' }}>
-            {loading ? <><Loader size={16} style={{ animation:'spin 0.8s linear infinite' }} /> Sending OTP...</> : <>Send OTP <ArrowRight size={16} /></>}
+            {loading ? <><Loader size={16} style={{ animation:'spin 0.8s linear infinite' }} /> Sending OTP...</> : <>{t('send_otp')} <ArrowRight size={16} /></>}
           </button>
         </form>
 
-        <div style={{ marginTop:'1.5rem', padding:'1rem', background:'rgba(79,70,229,0.08)', borderRadius:10, border:'1px solid rgba(79,70,229,0.15)' }}>
-          <p style={{ fontSize:'0.78rem', color:'#94a3b8', marginBottom:6, fontWeight:500 }}>Test Credentials</p>
-          <p style={{ fontSize:'0.75rem', color:'#64748b' }}>Admin: <span style={{color:'#2563eb'}}>admin@civic.gov</span></p>
-          <p style={{ fontSize:'0.75rem', color:'#64748b' }}>Citizen: <span style={{color:'#2563eb'}}>arjun@example.com</span></p>
-          <p style={{ fontSize:'0.72rem', color:'#94a3b8', marginTop:4 }}>OTP prints to backend console if Gmail not configured</p>
-        </div>
         <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
       </div>
     </div>

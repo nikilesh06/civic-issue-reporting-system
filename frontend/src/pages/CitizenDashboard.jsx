@@ -5,11 +5,13 @@ import Navbar from '../components/Navbar';
 import StatusBadge from '../components/StatusBadge';
 import api from '../api/axios';
 import { FileText, Clock, CheckCircle, Plus, MapPin, ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const CATEGORY_ICONS = { Garbage:'🗑️', 'Road Damage':'🛣️', 'Water Leakage':'💧', Drainage:'🚰', Streetlight:'💡', Others:'📋' };
 
 const CitizenDashboard = () => {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [complaints, setComplaints] = useState([]);
   const [ward, setWard] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -46,7 +48,7 @@ const CitizenDashboard = () => {
         {/* Header */}
         <div className="fade-in" style={{ marginBottom:'2rem' }}>
           <h1 style={{ fontSize:'1.6rem', fontWeight:800, color:'#0f172a' }}>
-            Welcome back, <span className="gradient-text">{user?.name?.split(' ')[0]}</span> 👋
+            {t('welcome')}, <span className="gradient-text">{user?.name?.split(' ')[0]}</span> 👋
           </h1>
           <p style={{ color:'#64748b', fontSize:'0.9rem', marginTop:4 }}>Track and manage your civic complaints</p>
         </div>
@@ -64,7 +66,7 @@ const CitizenDashboard = () => {
             </div>
             <Link to="/submit">
               <button className="btn-primary" style={{ fontSize:'0.85rem' }}>
-                <Plus size={15} /> Report Issue
+                <Plus size={15} /> {t('submit_complaint')}
               </button>
             </Link>
           </div>
@@ -88,7 +90,7 @@ const CitizenDashboard = () => {
         {/* Recent Complaints */}
         <div className="card" style={{ padding:'1.5rem' }}>
           <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'1.25rem' }}>
-            <h2 style={{ fontSize:'1rem', fontWeight:700, color:'#0f172a' }}>Recent Complaints</h2>
+            <h2 style={{ fontSize:'1rem', fontWeight:700, color:'#0f172a' }}>{t('recent_complaints')}</h2>
             <Link to="/history" style={{ textDecoration:'none', color:'#2563eb', fontSize:'0.85rem', display:'flex', alignItems:'center', gap:4 }}>
               View All <ChevronRight size={14} />
             </Link>
@@ -98,8 +100,8 @@ const CitizenDashboard = () => {
           ) : complaints.length === 0 ? (
             <div style={{ textAlign:'center', padding:'3rem' }}>
               <p style={{ fontSize:'2.5rem', marginBottom:8 }}>📋</p>
-              <p style={{ color:'#64748b' }}>No complaints yet</p>
-              <Link to="/submit"><button className="btn-primary" style={{ marginTop:'1rem' }}>Submit First Complaint</button></Link>
+              <p style={{ color:'#64748b' }}>{t('no_complaints')}</p>
+              <Link to="/submit"><button className="btn-primary" style={{ marginTop:'1rem' }}>{t('submit_complaint')}</button></Link>
             </div>
           ) : (
             <div style={{ display:'flex', flexDirection:'column', gap:12 }}>

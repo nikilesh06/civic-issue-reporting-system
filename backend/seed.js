@@ -1,7 +1,8 @@
 require('dotenv').config();
 const dns = require('dns');
-dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1']);
+dns.setServers(['192.168.0.3', '8.8.8.8', '1.1.1.1']);
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 const Ward = require('./models/Ward');
 const User = require('./models/User');
 const Complaint = require('./models/Complaint');
@@ -24,11 +25,16 @@ const seed = async () => {
     { wardNumber: 5, wardName: 'Thiruparankundram', councillorName: 'Karthik Raja', councillorEmail: 'karthik@ward5.gov', councillorPhone: '9876500005', area: 'South Madurai' },
   ]);
 
+  // Generate default password hash for officials
+  const salt = await bcrypt.genSalt(10);
+  const defaultPassword = await bcrypt.hash('admin123', salt);
+
   // Create admin user
   const admin = await User.create({
     name: 'Admin User',
     email: 'admin@civic.gov',
     role: 'admin',
+    password: defaultPassword,
     isVerified: true,
   });
 
@@ -38,6 +44,7 @@ const seed = async () => {
       name: w.councillorName,
       email: w.councillorEmail,
       role: 'councillor',
+      password: defaultPassword,
       isVerified: true,
       ward: w._id,
     }))

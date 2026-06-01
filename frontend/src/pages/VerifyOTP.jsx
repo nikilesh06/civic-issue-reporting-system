@@ -3,8 +3,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { ShieldCheck, Loader, RefreshCw } from 'lucide-react';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 const VerifyOTP = () => {
+  const { t } = useTranslation();
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
@@ -75,7 +77,7 @@ const VerifyOTP = () => {
         <div style={{ width:64, height:64, borderRadius:18, background:'linear-gradient(135deg,#10b981,#0284c7)', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 1.5rem' }}>
           <ShieldCheck size={28} color="white" />
         </div>
-        <h1 style={{ fontSize:'1.5rem', fontWeight:800, color:'#0f172a', marginBottom:8 }}>Verify OTP</h1>
+        <h1 style={{ fontSize:'1.5rem', fontWeight:800, color:'#0f172a', marginBottom:8 }}>{t('verify_otp')}</h1>
         <p style={{ color:'#94a3b8', fontSize:'0.875rem', marginBottom:'0.25rem' }}>Enter the 6-digit code sent to</p>
         <p style={{ color:'#2563eb', fontWeight:600, fontSize:'0.9rem', marginBottom:'2rem' }}>{email}</p>
 
@@ -104,7 +106,7 @@ const VerifyOTP = () => {
           {resending ? 'Resending...' : "Didn't receive OTP? Resend"}
         </button>
         <button onClick={() => navigate('/login')} style={{ marginTop:8, background:'none', border:'none', color:'#94a3b8', cursor:'pointer', fontSize:'0.8rem' }}>
-          ← Back to Login
+          ← {t('back_to_login')}
         </button>
         <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
       </div>

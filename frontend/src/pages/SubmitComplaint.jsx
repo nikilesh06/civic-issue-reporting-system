@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import LocationPicker from '../components/LocationPicker';
 import api from '../api/axios';
 import { Upload, X, CheckCircle, Loader, AlertCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const CATEGORIES = ['Garbage', 'Road Damage', 'Water Leakage', 'Drainage', 'Streetlight', 'Others'];
 const CATEGORY_ICONS = { Garbage:'🗑️', 'Road Damage':'🛣️', 'Water Leakage':'💧', Drainage:'🚰', Streetlight:'💡', Others:'📋' };
@@ -12,6 +13,7 @@ const CATEGORY_ICONS = { Garbage:'🗑️', 'Road Damage':'🛣️', 'Water Leak
 const SubmitComplaint = () => {
   const { user, updateUser } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [wards, setWards] = useState([]);
   const [form, setForm] = useState({
     title: '', description: '', issueCategory: '', ward: user?.ward?._id || user?.ward || '',
@@ -76,7 +78,17 @@ const SubmitComplaint = () => {
       <Navbar />
       <div style={{ maxWidth:800, margin:'0 auto', padding:'2rem 1.5rem' }}>
         <div className="fade-in" style={{ marginBottom:'1.5rem' }}>
-          <h1 style={{ fontSize:'1.5rem', fontWeight:800, color:'#0f172a' }}>Report an Issue</h1>
+          <Link to="/" style={{ 
+            display:'inline-flex', alignItems:'center', gap:6, 
+            background:'#ffffff', border:'1px solid #cbd5e1', color:'#475569', 
+            textDecoration:'none', fontSize:'0.85rem', fontWeight:600,
+            padding:'0.5rem 1rem', borderRadius:8, marginBottom:'1rem',
+            boxShadow:'0 1px 2px rgba(0,0,0,0.05)', transition:'all 0.2s' 
+          }} onMouseEnter={e=>{e.currentTarget.style.background='#f8fafc'; e.currentTarget.style.color='#1e3a8a'; e.currentTarget.style.borderColor='#94a3b8'}} 
+             onMouseLeave={e=>{e.currentTarget.style.background='#ffffff'; e.currentTarget.style.color='#475569'; e.currentTarget.style.borderColor='#cbd5e1'}}>
+            ← Back to Dashboard
+          </Link>
+          <h1 style={{ fontSize:'1.5rem', fontWeight:800, color:'#0f172a' }}>{t('submit_complaint')}</h1>
           <p style={{ color:'#64748b', fontSize:'0.875rem', marginTop:4 }}>Help your community by reporting civic issues</p>
         </div>
 
@@ -89,25 +101,25 @@ const SubmitComplaint = () => {
         <form onSubmit={handleSubmit} className="card" style={{ padding:'2rem', display:'flex', flexDirection:'column', gap:'1.25rem' }}>
           {/* Ward */}
           <div>
-            <label className="label">Ward <span style={{color:'#ef4444'}}>*</span></label>
+            <label className="label">{t('ward')} <span style={{color:'#ef4444'}}>*</span></label>
             <select className="select" value={form.ward} onChange={e => setForm({...form, ward: e.target.value})} required>
-              <option value="">Select your ward</option>
+              <option value="">{t('select_ward')}</option>
               {wards.map(w => <option key={w._id} value={w._id}>Ward {w.wardNumber} — {w.wardName}</option>)}
             </select>
           </div>
 
           {/* Category */}
           <div>
-            <label className="label">Issue Category <span style={{color:'#ef4444'}}>*</span></label>
+            <label className="label">{t('category')} <span style={{color:'#ef4444'}}>*</span></label>
             <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(130px,1fr))', gap:8 }}>
               {CATEGORIES.map(cat => (
                 <button key={cat} type="button" onClick={() => setForm({...form, issueCategory: cat})}
                   style={{
                     padding:'0.6rem 0.75rem', borderRadius:10, border:'1px solid',
-                    borderColor: form.issueCategory === cat ? '#1e3a8a' : '#334155',
-                    background: form.issueCategory === cat ? 'rgba(30, 58, 138, 0.1)' : 'rgba(15,23,42,0.5)',
-                    color: form.issueCategory === cat ? '#2563eb' : '#94a3b8',
-                    cursor:'pointer', fontSize:'0.82rem', fontWeight:500, transition:'all 0.2s',
+                    borderColor: form.issueCategory === cat ? '#3b82f6' : '#cbd5e1',
+                    background: form.issueCategory === cat ? '#eff6ff' : '#f8fafc',
+                    color: form.issueCategory === cat ? '#1d4ed8' : '#475569',
+                    cursor:'pointer', fontSize:'0.85rem', fontWeight:600, transition:'all 0.2s',
                     display:'flex', alignItems:'center', gap:6,
                   }}>
                   {CATEGORY_ICONS[cat]} {cat}
@@ -118,22 +130,22 @@ const SubmitComplaint = () => {
 
           {/* Title */}
           <div>
-            <label className="label">Issue Title <span style={{color:'#ef4444'}}>*</span></label>
-            <input className="input" type="text" placeholder="Brief title of the issue" value={form.title}
+            <label className="label">{t('title')} <span style={{color:'#ef4444'}}>*</span></label>
+            <input className="input" type="text" placeholder={t('title_placeholder')} value={form.title}
               onChange={e => setForm({...form, title: e.target.value})} required />
           </div>
 
           {/* Description */}
           <div>
-            <label className="label">Description <span style={{color:'#ef4444'}}>*</span></label>
-            <textarea className="input" rows={4} placeholder="Describe the issue in detail..."
+            <label className="label">{t('description')} <span style={{color:'#ef4444'}}>*</span></label>
+            <textarea className="input" rows={4} placeholder={t('desc_placeholder')}
               value={form.description} onChange={e => setForm({...form, description: e.target.value})}
               required style={{ resize:'vertical' }} />
           </div>
 
           {/* Image Upload */}
           <div>
-            <label className="label">Upload Image (optional)</label>
+            <label className="label">{t('upload_image')} (optional)</label>
             {preview ? (
               <div style={{ position:'relative', display:'inline-block' }}>
                 <img src={preview} alt="preview" style={{ width:'100%', maxHeight:220, objectFit:'cover', borderRadius:12, border:'1px solid #334155' }} />
@@ -154,13 +166,13 @@ const SubmitComplaint = () => {
 
           {/* Location */}
           <div>
-            <label className="label">Issue Location</label>
+            <label className="label">{t('location')}</label>
             {location && <p style={{ fontSize:'0.78rem', color:'#10b981', marginBottom:6 }}>📍 {location.address}</p>}
             <LocationPicker lat={location?.lat} lng={location?.lng} onLocationSelect={setLocation} />
           </div>
 
           <button className="btn-primary" type="submit" disabled={loading} style={{ width:'100%', justifyContent:'center', padding:'0.875rem', fontSize:'1rem' }}>
-            {loading ? <><Loader size={18} style={{ animation:'spin 0.8s linear infinite' }} /> Submitting...</> : '📤 Submit Complaint'}
+            {loading ? <><Loader size={18} style={{ animation:'spin 0.8s linear infinite' }} /> Submitting...</> : <>📤 {t('submit')}</>}
           </button>
         </form>
       </div>

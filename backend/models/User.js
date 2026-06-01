@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true, lowercase: true, trim: true },
   ward: { type: mongoose.Schema.Types.ObjectId, ref: 'Ward' },
   role: { type: String, enum: ['citizen', 'admin', 'councillor'], default: 'citizen' },
+  password: { type: String }, // For admin and councillor logins
   otp: { type: String },
   otpExpiry: { type: Date },
   isVerified: { type: Boolean, default: false },

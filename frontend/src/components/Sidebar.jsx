@@ -1,15 +1,17 @@
 import { NavLink } from 'react-router-dom';
 import { LayoutDashboard, FileText, BarChart3, MapPin } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-
-const links = [
-  { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', end: true },
-  { to: '/admin/complaints', icon: FileText, label: 'Complaints' },
-  { to: '/admin/wards', icon: MapPin, label: 'Wards', role: 'admin' },
-];
+import { useTranslation } from 'react-i18next';
 
 const Sidebar = () => {
   const { user } = useAuth();
+  const { t } = useTranslation();
+
+  const links = [
+    { to: '/admin', icon: LayoutDashboard, label: t('dashboard'), end: true },
+    { to: '/admin/complaints', icon: FileText, label: t('recent_complaints') },
+    { to: '/admin/wards', icon: MapPin, label: t('ward'), role: 'admin' },
+  ];
 
   return (
     <aside style={{

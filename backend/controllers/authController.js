@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 
 // Utility to generate a random 6-digit OTP for 2FA
@@ -116,6 +117,41 @@ const verifyOTP = async (req, res) => {
   }
 };
 
+const loginOfficial = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) return res.status(400).json({ message: 'Email and password are required' });
+
+    const user = await User.findOne({ email }).populate('ward');
+    if (!user || (user.role !== 'admin' && user.role !== 'councillor')) {
+      return res.status(401).json({ message: 'Invalid official credentials' });
+    }
+
+    if (!user.password) {
+      return res.status(401).json({ message: 'Account not set up for password login' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(401).json({ message: 'Invalid official credentials' });
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+
+    res.json({
+      token,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        ward: user.ward,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Login failed', error: err.message });
+  }
+};
+
 const getMe = async (req, res) => {
   res.json(req.user);
 };
@@ -134,4 +170,4 @@ const updateProfile = async (req, res) => {
   }
 };
 
-module.exports = { sendOTP, verifyOTP, getMe, updateProfile };
+module.exports = { sendOTP, verifyOTP, loginOfficial, getMe, updateProfile };

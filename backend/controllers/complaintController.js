@@ -79,11 +79,19 @@ const updateComplaintStatus = async (req, res) => {
       return res.status(403).json({ message: 'Unauthorized: Can only update complaints in your ward' });
     }
 
-    complaint.status = status;
-    if (adminNote) complaint.adminNote = adminNote;
-    if (status === 'Resolved' && !complaint.resolvedAt) {
-      complaint.resolvedAt = Date.now();
+    // Prevent admin from changing the status
+    if (req.user.role === 'admin' && status && status !== complaint.status) {
+      return res.status(403).json({ message: 'Unauthorized: Admins cannot change complaint status. Only Councillors can resolve issues.' });
     }
+
+    if (status && req.user.role === 'councillor') {
+      complaint.status = status;
+      if (status === 'Resolved' && !complaint.resolvedAt) {
+        complaint.resolvedAt = Date.now();
+      }
+    }
+    
+    if (adminNote !== undefined) complaint.adminNote = adminNote;
 
     await complaint.save();
     const updated = await Complaint.findById(req.params.id)
