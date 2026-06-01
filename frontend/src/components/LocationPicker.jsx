@@ -18,7 +18,7 @@ const LocationPicker = ({ lat, lng, onLocationSelect }) => {
         shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
       });
 
-      const map = L.map(mapRef.current).setView([9.9252, 78.1198], 12);
+      const map = L.map(mapRef.current).setView([10.3673, 77.9803], 12);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors',
       }).addTo(map);

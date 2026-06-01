@@ -46,11 +46,11 @@ const Login = () => {
           <h1 style={{ fontSize:'1.6rem', fontWeight:800, marginBottom:6 }}>
             <span className="gradient-text">CivicReport</span>
           </h1>
-          <p style={{ color:'#94a3b8', fontSize:'0.9rem' }}>Crowdsourced Civic Issue Reporting</p>
+          <p style={{ color:'#94a3b8', fontSize:'0.9rem' }}>{t('sign_in_desc')}</p>
         </div>
 
         <h2 style={{ fontSize:'1.1rem', fontWeight:600, color:'#0f172a', marginBottom:'0.25rem' }}>{t('welcome')}</h2>
-        <p style={{ color:'#64748b', fontSize:'0.85rem', marginBottom:'1.5rem' }}>Sign in with your email — we'll send an OTP</p>
+        <p style={{ color:'#64748b', fontSize:'0.85rem', marginBottom:'1.5rem' }}>{t('sign_in_desc')}</p>
 
         {error && (
           <div style={{ background:'rgba(239,68,68,0.1)', border:'1px solid rgba(239,68,68,0.3)', borderRadius:10, padding:'0.75rem 1rem', color:'#f87171', fontSize:'0.85rem', marginBottom:'1rem' }}>
@@ -60,7 +60,7 @@ const Login = () => {
 
         <form onSubmit={handleSubmit} style={{ display:'flex', flexDirection:'column', gap:'1rem' }}>
           <div>
-            <label className="label">Full Name</label>
+            <label className="label">{t('full_name')}</label>
             <input className="input" type="text" placeholder={t('enter_name')} value={name} onChange={e => setName(e.target.value)} />
           </div>
           <div>
@@ -79,7 +79,7 @@ const Login = () => {
             </select>
           </div>
           <button className="btn-primary" type="submit" disabled={loading} style={{ width:'100%', justifyContent:'center', padding:'0.75rem' }}>
-            {loading ? <><Loader size={16} style={{ animation:'spin 0.8s linear infinite' }} /> Sending OTP...</> : <>{t('send_otp')} <ArrowRight size={16} /></>}
+            {loading ? <><Loader size={16} style={{ animation:'spin 0.8s linear infinite' }} /> {t('sending_otp')}</> : <>{t('send_otp')} <ArrowRight size={16} /></>}
           </button>
         </form>
 

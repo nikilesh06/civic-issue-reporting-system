@@ -17,13 +17,66 @@ const seed = async () => {
   await Complaint.deleteMany();
 
   // Create wards
-  const wards = await Ward.insertMany([
-    { wardNumber: 1, wardName: 'Anna Nagar', councillorName: 'Ravi Kumar', councillorEmail: 'ravi@ward1.gov', councillorPhone: '9876500001', area: 'East Madurai' },
-    { wardNumber: 2, wardName: 'KK Nagar', councillorName: 'Priya Nair', councillorEmail: 'priya@ward2.gov', councillorPhone: '9876500002', area: 'East Madurai' },
-    { wardNumber: 3, wardName: 'SS Colony', councillorName: 'Suresh Babu', councillorEmail: 'suresh@ward3.gov', councillorPhone: '9876500003', area: 'West Madurai' },
-    { wardNumber: 4, wardName: 'Tallakulam', councillorName: 'Meena Devi', councillorEmail: 'meena@ward4.gov', councillorPhone: '9876500004', area: 'North Madurai' },
-    { wardNumber: 5, wardName: 'Thiruparankundram', councillorName: 'Karthik Raja', councillorEmail: 'karthik@ward5.gov', councillorPhone: '9876500005', area: 'South Madurai' },
-  ]);
+  // Create wards for Dindigul City
+  const dindigulWards = [
+    { num: 1, name: 'M. Kirubakaran', party: 'DMK', phone: '9843191101' },
+    { num: 2, name: 'S. Ganesan', party: 'CPI(M)', phone: '9790526023' },
+    { num: 3, name: 'V. Indrani', party: 'DMK', phone: '7373156700' },
+    { num: 4, name: 'C.S. Rajmohan', party: 'ADMK', phone: '9003633333' },
+    { num: 5, name: 'J. Swathi', party: 'DMK', phone: '8344524300' },
+    { num: 6, name: 'O. Saranya', party: 'DMK', phone: '8807803900' },
+    { num: 7, name: 'R. Subas', party: 'DMK', phone: '9150598598' },
+    { num: 8, name: 'R. Anand', party: 'DMK', phone: '9500909019' },
+    { num: 9, name: 'P. Shanthi', party: 'DMK', phone: '7904836633' },
+    { num: 10, name: 'J. Banupriya', party: 'DMK', phone: '8608261883' },
+    { num: 11, name: 'K. Mariammal', party: 'CPI(M)', phone: '6369018874' },
+    { num: 12, name: 'C. Janakiraman', party: 'DMK', phone: '8825174488' },
+    { num: 13, name: 'A. Arulvani', party: 'DMK', phone: '9865247308' },
+    { num: 14, name: 'G. Dhanabalan', party: 'BJP', phone: '9894270676' },
+    { num: 15, name: 'M. Sathiyavani', party: 'ADMK', phone: '9842277728' },
+    { num: 16, name: 'Vacant', party: '—', phone: '—' },
+    { num: 17, name: 'K.K.R. Venkatesh', party: 'Independent', phone: '9655577237' },
+    { num: 18, name: 'A. Mohamed Siddiq', party: 'DMK', phone: '8220940404' },
+    { num: 19, name: 'A. Arockia Selvi', party: 'DMK', phone: '8643091601' },
+    { num: 20, name: 'J. Jayanthi', party: 'DMK', phone: '9788680343' },
+    { num: 21, name: 'J. Karthick', party: 'INC', phone: '9944881618' },
+    { num: 22, name: 'K. Senthil Kumar', party: 'DMK', phone: '9943330701' },
+    { num: 23, name: 'J. Ilamathi (Mayor)', party: 'DMK', phone: '9786445969' },
+    { num: 24, name: 'M. Stella Mary', party: 'DMK', phone: '9677741008' },
+    { num: 25, name: 'N. Sivakumar', party: 'DMK', phone: '9944460362' },
+    { num: 26, name: 'R. Mohamed Iliyas', party: 'IUML', phone: '9940920004' },
+    { num: 27, name: 'J. Barathi', party: 'INC', phone: '8489330480' },
+    { num: 28, name: 'A. Natarajan', party: 'VCK', phone: '9994104525' },
+    { num: 29, name: 'S. Manoranjitham', party: 'DMK', phone: '8344950385' },
+    { num: 30, name: 'S. Lakshmi', party: 'DMK', phone: '9894166330' },
+    { num: 31, name: 'P. Umadevi', party: 'ADMK', phone: '9842136444' },
+    { num: 32, name: 'S. Rajappa (Deputy Mayor)', party: 'DMK', phone: '9842142478' },
+    { num: 33, name: 'A. John Peter', party: 'DMK', phone: '9994894354' },
+    { num: 34, name: 'S. Baskaran', party: 'ADMK', phone: '9962635333' },
+    { num: 35, name: 'S. Jothibasu', party: 'CPI(M)', phone: '9597991112' },
+    { num: 36, name: 'M. Powmidha Parveen', party: 'DMK', phone: '9994944831' },
+    { num: 37, name: 'U. Nithya', party: 'DMK', phone: '9790293951' },
+    { num: 38, name: 'A. Vasanthi', party: 'Independent', phone: '9786558999' },
+    { num: 39, name: 'M. Bilal Usen', party: 'DMK', phone: '9150588319' },
+    { num: 40, name: 'K. Haseena Parveen', party: 'DMK', phone: '9361136013' },
+    { num: 41, name: 'A. Vimala Arockiamary', party: 'Independent', phone: '9789526611' },
+    { num: 42, name: 'C. Therasa Mary', party: 'DMK', phone: '9600466324' },
+    { num: 43, name: 'C. Vijaya', party: 'DMK', phone: '9965111603' },
+    { num: 44, name: 'A. Marthandan', party: 'Independent', phone: '8248846525' },
+    { num: 45, name: 'S. Amalorpava Mary', party: 'ADMK', phone: '9698143760' },
+    { num: 46, name: 'R. Kulothungan', party: 'Independent', phone: '8675052435' },
+    { num: 47, name: 'K. Subashini', party: 'DMK', phone: '9245136123' },
+    { num: 48, name: 'J. Gayathri', party: 'DMK', phone: '9791484403' }
+  ];
+
+  const wards = await Ward.insertMany(dindigulWards.map(w => ({
+    wardNumber: w.num,
+    wardName: `Ward ${w.num}`,
+    councillorName: w.name,
+    councillorEmail: `ward${w.num}@dindigul.gov`,
+    councillorPhone: w.phone,
+    area: 'Dindigul City'
+  })));
 
   // Generate default password hash for officials
   const salt = await bcrypt.genSalt(10);
@@ -38,9 +91,9 @@ const seed = async () => {
     isVerified: true,
   });
 
-  // Create councillor users
+  // Create councillor users (skip vacant)
   const councillors = await User.insertMany(
-    wards.map((w, i) => ({
+    wards.filter(w => w.councillorName !== 'Vacant').map(w => ({
       name: w.councillorName,
       email: w.councillorEmail,
       role: 'councillor',
@@ -76,7 +129,7 @@ const seed = async () => {
       issueCategory: categories[i % categories.length],
       ward: ward._id,
       status,
-      location: { lat: 9.9252 + (Math.random() * 0.05 - 0.025), lng: 78.1198 + (Math.random() * 0.05 - 0.025), address: `${ward.wardName}, Madurai` },
+      location: { lat: 10.3673 + (Math.random() * 0.05 - 0.025), lng: 77.9803 + (Math.random() * 0.05 - 0.025), address: `${ward.wardName}, Dindigul` },
       createdAt: date,
       resolvedAt: status === 'Resolved' ? date : null,
     });
@@ -85,7 +138,7 @@ const seed = async () => {
 
   console.log('Database seeded successfully.');
   console.log('Admin login: admin@civic.gov');
-  console.log('Councillor login: ravi@ward1.gov');
+  console.log('Councillor login: ward1@dindigul.gov (Password: admin123)');
   console.log('Citizen login: arjun@example.com');
   mongoose.disconnect();
 };

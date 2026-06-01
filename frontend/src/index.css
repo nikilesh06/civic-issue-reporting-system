@@ -195,3 +195,105 @@ tr:hover td { background: #f8fafc; }
   border-color: #1e3a8a;
   box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
 }
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #2563eb, #0ea5e9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  /* Navbar */
+  .navbar-title { display: none; }
+  .navbar-actions { gap: 8px !important; }
+  .navbar-user-name { display: none; }
+
+  /* Sidebar — hidden on mobile (use bottom nav) */
+  .sidebar-desktop { display: none !important; }
+
+  /* Page padding */
+  .page-content {
+    padding: 1rem !important;
+  }
+
+  /* Charts grid — stack on mobile */
+  .charts-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Stats grid — 2 columns on mobile */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* OTP inputs smaller on mobile */
+  .otp-input {
+    width: 40px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+
+  /* Table horizontal scroll */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { min-width: 600px; }
+
+  /* Modal full-width */
+  .modal-inner {
+    max-width: 100% !important;
+    margin: 0.5rem !important;
+    padding: 1.25rem !important;
+  }
+
+  /* Card padding reduce */
+  .card { border-radius: 12px !important; }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  h1 { font-size: 1.3rem !important; }
+}
+
+/* Mobile bottom navigation for admin sidebar */
+.mobile-bottom-nav {
+  display: none;
+}
+@media (max-width: 768px) {
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border-top: 1px solid #e2e8f0;
+    padding: 0.5rem 0;
+    z-index: 50;
+    justify-content: space-around;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.06);
+  }
+  .mobile-bottom-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: #94a3b8;
+    text-decoration: none;
+    padding: 0.3rem 1rem;
+    border-radius: 10px;
+    transition: color 0.2s;
+  }
+  .mobile-bottom-nav a.active {
+    color: #1e3a8a;
+  }
+  /* Push page content up to avoid bottom nav overlap */
+  .admin-page-body {
+    padding-bottom: 5rem !important;
+  }
+}

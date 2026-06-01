@@ -38,7 +38,7 @@ const OfficialLogin = () => {
         </div>
 
         <h2 style={{ fontSize:'1.1rem', fontWeight:600, color:'#0f172a', marginBottom:'0.25rem' }}>{t('welcome')}</h2>
-        <p style={{ color:'#64748b', fontSize:'0.85rem', marginBottom:'1.5rem' }}>Sign in to access your administrative dashboard.</p>
+        <p style={{ color:'#64748b', fontSize:'0.85rem', marginBottom:'1.5rem' }}>{t('official_sign_in_desc')}</p>
 
         {error && (
           <div style={{ background:'rgba(239,68,68,0.1)', border:'1px solid rgba(239,68,68,0.3)', borderRadius:10, padding:'0.75rem 1rem', color:'#f87171', fontSize:'0.85rem', marginBottom:'1rem' }}>
@@ -58,17 +58,19 @@ const OfficialLogin = () => {
           <div>
             <label className="label">Password</label>
             <div style={{ position:'relative' }}>
-              <input className="input" type="password" placeholder="Enter your password" value={password}
+              <input className="input" type="password" placeholder={t('enter_password')} value={password}
                 onChange={e => setPassword(e.target.value)} required />
             </div>
           </div>
           <button className="btn-primary" type="submit" disabled={loading} style={{ width:'100%', justifyContent:'center', padding:'0.75rem', marginTop:'0.5rem' }}>
-            {loading ? <><Loader size={16} style={{ animation:'spin 0.8s linear infinite' }} /> Signing in...</> : <>Sign In <ArrowRight size={16} /></>}
+            {loading ? <><Loader size={16} style={{ animation:'spin 0.8s linear infinite' }} /> {t('verifying')}</> : <>{t('sign_in')} <ArrowRight size={16} /></>}
           </button>
         </form>
         
-        <button onClick={() => navigate('/login')} style={{ marginTop:'1rem', background:'none', border:'none', color:'#94a3b8', cursor:'pointer', fontSize:'0.85rem', width:'100%', textAlign:'center' }}>
-          ← Citizen Login
+        <button onClick={() => navigate('/login')} style={{ marginTop:'1.5rem', background:'none', border:'none', color:'#64748b', cursor:'pointer', fontSize:'0.85rem', width:'100%', textAlign:'center', transition: 'color 0.2s' }}
+          onMouseEnter={e => e.currentTarget.style.color = '#0f172a'}
+          onMouseLeave={e => e.currentTarget.style.color = '#64748b'}>
+          ← Back to Citizen Login
         </button>
       </div>
     </div>

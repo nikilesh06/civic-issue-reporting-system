@@ -75,7 +75,8 @@ const updateComplaintStatus = async (req, res) => {
     if (!complaint) return res.status(404).json({ message: 'Complaint not found' });
 
     // Prevent councillor from modifying other wards
-    if (req.user.role === 'councillor' && complaint.ward.toString() !== req.user.ward.toString()) {
+    const userWardId = (req.user.ward && req.user.ward._id) ? req.user.ward._id.toString() : (req.user.ward ? req.user.ward.toString() : null);
+    if (req.user.role === 'councillor' && complaint.ward.toString() !== userWardId) {
       return res.status(403).json({ message: 'Unauthorized: Can only update complaints in your ward' });
     }
 

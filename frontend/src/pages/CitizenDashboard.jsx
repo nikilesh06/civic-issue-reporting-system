@@ -44,7 +44,7 @@ const CitizenDashboard = () => {
   return (
     <div style={{ background:'#f0f4f8', minHeight:'100vh' }}>
       <Navbar />
-      <div style={{ maxWidth:1100, margin:'0 auto', padding:'2rem 1.5rem' }}>
+      <div className="page-content" style={{ maxWidth:1100, margin:'0 auto', padding:'2rem 1.5rem' }}>
         {/* Header */}
         <div className="fade-in" style={{ marginBottom:'2rem' }}>
           <h1 style={{ fontSize:'1.6rem', fontWeight:800, color:'#0f172a' }}>
@@ -73,7 +73,7 @@ const CitizenDashboard = () => {
         )}
 
         {/* Stats */}
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))', gap:'1rem', marginBottom:'2rem' }}>
+        <div className="stats-grid" style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))', gap:'1rem', marginBottom:'2rem' }}>
           {stats.map(({ label, value, icon: Icon, color, bg }) => (
             <div key={label} className="stat-card fade-in">
               <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:12 }}>
@@ -106,16 +106,41 @@ const CitizenDashboard = () => {
           ) : (
             <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
               {complaints.map(c => (
-                <div key={c._id} style={{ display:'flex', alignItems:'center', gap:14, padding:'1rem', background:'rgba(15,23,42,0.5)', borderRadius:12, border:'1px solid #ffffff', transition:'all 0.2s' }}
-                  onMouseEnter={e=>e.currentTarget.style.borderColor='rgba(30, 58, 138, 0.2)'}
-                  onMouseLeave={e=>e.currentTarget.style.borderColor='#ffffff'}>
-                  <span style={{ fontSize:'1.5rem', flexShrink:0 }}>{CATEGORY_ICONS[c.issueCategory] || '📋'}</span>
-                  <div style={{ flex:1, minWidth:0 }}>
-                    <p style={{ fontWeight:600, color:'#0f172a', fontSize:'0.9rem', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{c.title}</p>
-                    <p style={{ color:'#64748b', fontSize:'0.78rem', marginTop:2 }}>{new Date(c.createdAt).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })}</p>
+                <Link to="/history" key={c._id} style={{ textDecoration: 'none' }}>
+                  <div className="fade-in" style={{ 
+                    display:'flex', alignItems:'center', gap:16, padding:'1rem 1.25rem', 
+                    background:'#ffffff', borderRadius:16, border:'1px solid #e2e8f0', 
+                    boxShadow:'0 2px 10px rgba(0,0,0,0.02)', cursor:'pointer', transition:'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)' 
+                  }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = '0 8px 24px rgba(15, 23, 42, 0.08)';
+                      e.currentTarget.style.borderColor = '#cbd5e1';
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 2px 10px rgba(0,0,0,0.02)';
+                      e.currentTarget.style.borderColor = '#e2e8f0';
+                    }}>
+                    <div style={{ 
+                      width: 48, height: 48, borderRadius: 14, 
+                      background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(14, 165, 233, 0.08))', 
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 
+                    }}>
+                      <span style={{ fontSize:'1.4rem' }}>{CATEGORY_ICONS[c.issueCategory] || '📋'}</span>
+                    </div>
+                    <div style={{ flex:1, minWidth:0 }}>
+                      <p style={{ fontWeight:700, color:'#0f172a', fontSize:'0.95rem', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis', marginBottom: 2 }}>{c.title}</p>
+                      <p style={{ color:'#64748b', fontSize:'0.8rem', display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <Clock size={12} /> {new Date(c.createdAt).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })}
+                      </p>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <StatusBadge status={c.status} />
+                      <ChevronRight size={16} color="#94a3b8" />
+                    </div>
                   </div>
-                  <StatusBadge status={c.status} />
-                </div>
+                </Link>
               ))}
             </div>
           )}

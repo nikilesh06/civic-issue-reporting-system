@@ -48,7 +48,7 @@ const AdminDashboard = () => {
       <Navbar />
       <div style={{ display:'flex' }}>
         <Sidebar />
-        <main style={{ flex:1, padding:'2rem 1.5rem', minWidth:0 }}>
+        <main className="admin-page-body" style={{ flex:1, padding:'2rem 1.5rem', minWidth:0 }}>
           <div className="fade-in" style={{ marginBottom:'1.75rem' }}>
             <h1 style={{ fontSize:'1.6rem', fontWeight:800, color:'#0f172a' }}>
               {user?.role === 'councillor' ? 'Councillor Dashboard' : 'Admin Dashboard'}
@@ -59,7 +59,7 @@ const AdminDashboard = () => {
           </div>
 
           {/* Stats Grid */}
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))', gap:'1rem', marginBottom:'1.75rem' }}>
+          <div className="stats-grid" style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))', gap:'1rem', marginBottom:'1.75rem' }}>
             {stats.map(({ label, value, icon: Icon, color, bg, delta }) => (
               <div key={label} className="stat-card fade-in">
                 <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:12 }}>
@@ -75,7 +75,7 @@ const AdminDashboard = () => {
           </div>
 
           {/* Charts Row */}
-          <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr', gap:'1.25rem', marginBottom:'1.75rem' }}>
+          <div className="charts-grid" style={{ display:'grid', gridTemplateColumns:'2fr 1fr', gap:'1.25rem', marginBottom:'1.75rem' }}>
             {/* Area Chart */}
             <div className="card" style={{ padding:'1.5rem' }}>
               <h2 style={{ fontSize:'0.95rem', fontWeight:700, color:'#0f172a', marginBottom:'1.25rem' }}>Monthly Complaint Trend</h2>

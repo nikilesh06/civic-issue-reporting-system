@@ -56,7 +56,7 @@ const ComplaintManagement = () => {
       <Navbar />
       <div style={{ display:'flex' }}>
         <Sidebar />
-        <main style={{ flex:1, padding:'2rem 1.5rem', minWidth:0 }}>
+        <main className="admin-page-body" style={{ flex:1, padding:'2rem 1.5rem', minWidth:0 }}>
           <div className="fade-in" style={{ marginBottom:'1.5rem' }}>
             <h1 style={{ fontSize:'1.5rem', fontWeight:800, color:'#0f172a' }}>Complaint Management</h1>
             <p style={{ color:'#64748b', fontSize:'0.875rem', marginTop:4 }}>View and manage all civic complaints</p>
