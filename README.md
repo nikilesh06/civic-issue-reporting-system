@@ -103,7 +103,7 @@ Backend runs at `http://localhost:5000`
 | Role | Email |
 |------|-------|
 | Admin | admin@civic.gov |
-| Councillor (Ward 1) | ravi@ward1.gov |
+| Councillor (Ward 1) | ward1@dindigul.gov |
 | Citizen | arjun@example.com |
 
-> OTP will print to the backend terminal if Gmail is not configured.
+> OTP will print to the backend terminal if Gmail is not configured for only users.
